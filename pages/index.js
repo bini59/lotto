@@ -1,5 +1,5 @@
-import {useState} from "react"
-import Balls from "./component/balls";
+    import {useState, useEffect} from "react"
+import Balls from "../component/balls";
 
 const style = `
     .ball{
@@ -41,6 +41,8 @@ const style = `
         width: 10vw;
         height: 3vw;
         margin-right: 2vw;
+
+        background-color: #e1e1e1e;
         box-shadow: 2px 3px 0 rgb(0,0,0,0.3);
         border: 0;
     }
@@ -53,29 +55,19 @@ const style = `
     }
 `
 
+// const useBall = ()=>{
+
+// }
+
 const Index = ()=>{
-    const [nums, setNums] = useState([1, 2, 3, 4, 5, 6, 7])
-    const chN = ()=>{
-        var t = []
-        for(var i = 0; i < 7; i++){
-            var x = 0;
-            do{
-                var ss = true
-                x = Math.ceil(Math.random()*44);
-                for(var i = 0; i < t.length; i++){
-                    if(x == t[i]) ss=false
-                }
-            } while(!ss);
-            t.push(x);
-        }
-        setNums(t)
-    }
-    
+
+    const [trigger, setTrigger] = useState(false)
+
     return(
         <>
-            <Balls nums={nums} />
+            <Balls trigger={trigger} setTrigger={(t)=>setTrigger(t)}/>
             <section className="control-section">
-                <button className="chBtn" onClick={chN}>Button</button>
+                <button className="chBtn" onClick={()=>{setTrigger(true)}}>Button</button>
             </section>
             
 
