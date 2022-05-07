@@ -3,7 +3,7 @@ import styles from "../styles/selectNum.module.sass";
 
 const log = console.log;
 
-const data = [
+const data: number[][] = [
     [1, 2, 3, 4, 5, 6],
     [7, 8, 9, 10, 11, 12],
     [13, 14, 15, 16, 17, 18],
@@ -22,14 +22,27 @@ const Nums = () => {
         target.classList.toggle(styles.active);
     };
 
-    useEffect(() => {
-        log("useEffect");
-        let a: number = Math.floor(Math.random() * 7);
+    const createRandomNumber = () => {
+        let randomNumber: number[] = [];
+        for (let i = 0; i < 6; i++) {
+            var temp = Math.floor(Math.random() * data[i].length);
+            if (randomNumber.includes(data[i][temp])) {
+                i--;
+            } else {
+                randomNumber.push(data[i][temp]);
+            }
+        }
+        return randomNumber;
+    };
+
+    const applyRandomNumber = (numbers: number[]) => {
         let res: JSX.Element[] = [];
         for (let i = 0; i < 8; i++) {
             var temp = [];
-            var b = a == i ? `${styles.active} ${styles.number}` : styles.number;
             for (let j = 0; j < data[i].length; j++) {
+                var b = numbers.includes(i * 6 + j)
+                    ? `${styles.active} ${styles.number}`
+                    : styles.number;
                 temp.push(
                     <div key={"number" + i * 7 + j} className={b} onClick={toggleActive}>
                         {data[i][j]}
@@ -39,12 +52,17 @@ const Nums = () => {
             res.push(<div className={styles.number_row}>{temp}</div>);
         }
         setNums(res);
+    };
+
+    useEffect(() => {
+        applyRandomNumber(createRandomNumber());
     }, []);
 
     return (
         <>
             <section className={styles.num_section}>
                 <div className='num_title'>Lotto number selection</div>
+                <button onClick={() => applyRandomNumber(createRandomNumber())}>Re-Select</button>
                 <section className={styles.numbers}>{nums}</section>
             </section>
         </>
