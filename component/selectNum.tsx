@@ -15,27 +15,61 @@ const data: number[][] = [
 ];
 
 const Nums = () => {
+    log("Nums");
+    const [selected, setSelected] = useState(0);
     const [nums, setNums] = useState<JSX.Element[]>([]);
+    const [element, setElement] = useState<React.MouseEvent<HTMLDivElement, MouseEvent> | null>(
+        null
+    );
 
-    const toggleActive = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-        const target = e.target as HTMLDivElement;
-        target.classList.toggle(styles.active);
-    };
+    // const toggleActive = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    //     const target = e.target as HTMLDivElement;
+    //     log("toggle function" + selected);
+    //     if (selected == 6 && !target.classList.contains(styles.active)) {
+    //         alert("You can't select more than 6 numbers");
+    //         return;
+    //     }
+    //     if (target.classList.contains(styles.active)) {
+    //         target.classList.remove(styles.active);
+    //         setSelected(selected - 1);
+    //     } else {
+    //         target.classList.add(styles.active);
+    //         setSelected(selected + 1);
+    //     }
+    // };
+
+    useEffect(() => {
+        if (element) {
+            const target = element?.target as HTMLDivElement;
+            if (selected == 6 && !target.classList.contains(styles.active)) {
+                alert("You can't select more than 6 numbers");
+                return;
+            }
+            if (target.classList.contains(styles.active)) {
+                target.classList.remove(styles.active);
+                setSelected(selected - 1);
+            } else {
+                target.classList.add(styles.active);
+                setSelected(selected + 1);
+            }
+        }
+    }, [element]);
 
     const createRandomNumber = () => {
         let randomNumber: number[] = [];
         for (let i = 0; i < 6; i++) {
-            var temp = Math.floor(Math.random() * data[i].length);
-            if (randomNumber.includes(data[i][temp])) {
-                i--;
-            } else {
-                randomNumber.push(data[i][temp]);
+            var temp: number = Math.floor(Math.random() * 45 + 1);
+            while (randomNumber.includes(temp)) {
+                temp = Math.floor(Math.random() * 45 + 1);
             }
+            randomNumber.push(temp);
         }
+        setSelected(6);
+        log("create" + selected);
         return randomNumber;
     };
 
-    const applyRandomNumber = (numbers: number[]) => {
+    const applyNumber = (numbers: number[]) => {
         let res: JSX.Element[] = [];
         for (let i = 0; i < 8; i++) {
             var temp = [];
@@ -44,25 +78,42 @@ const Nums = () => {
                     ? `${styles.active} ${styles.number}`
                     : styles.number;
                 temp.push(
-                    <div key={"number" + i * 7 + j} className={b} onClick={toggleActive}>
+                    <div
+                        key={"number" + i * 7 + j}
+                        className={b}
+                        onClick={(e) => {
+                            setElement(e);
+                        }}
+                    >
                         {data[i][j]}
                     </div>
                 );
             }
-            res.push(<div className={styles.number_row}>{temp}</div>);
+            res.push(
+                <div key={`num_row_${i}`} className={styles.number_row}>
+                    {temp}
+                </div>
+            );
         }
         setNums(res);
     };
 
     useEffect(() => {
-        applyRandomNumber(createRandomNumber());
+        applyNumber(createRandomNumber());
+        log("init random number" + selected);
     }, []);
 
     return (
         <>
             <section className={styles.num_section}>
                 <div className='num_title'>Lotto number selection</div>
-                <button onClick={() => applyRandomNumber(createRandomNumber())}>Re-Select</button>
+                <button
+                    onClick={(e) => {
+                        applyNumber(createRandomNumber());
+                    }}
+                >
+                    Re-Select
+                </button>
                 <section className={styles.numbers}>{nums}</section>
             </section>
         </>
