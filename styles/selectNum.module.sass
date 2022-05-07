@@ -1,0 +1,50 @@
+.num_section
+    display: flex
+    flex-direction: column
+    justify-content: center
+    align-items: center
+    width: 100%
+    height: calc(100vh - 60px)
+    background-color: #fafafa
+    padding: 20px
+    box-sizing: border-box
+
+    .numbers
+        display: flex
+        flex-direction: column
+        justify-content: center
+        align-items: center
+        width: 100%
+
+        .number_row
+            display: flex
+            flex-direction: row
+
+            .number
+                display: flex
+                justify-content: center
+                align-items: center
+                width: 44px
+                height: 44px
+
+                box-sizing: border-box
+                box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.15)
+
+                margin: 4px
+
+                &:hover
+                    cursor: pointer
+                    box-shadow: 3px 3px 5px 0px rgba(0, 0, 0, 0.2)
+
+                &:active
+                    box-shadow: 2px 2px 3px 0px rgba(0, 0, 0, 0.1)
+
+                &.active
+                    background-color: #6e6e6e
+                    color: #fff
+                    border: 1px solid #6e6e6e
+                    border-radius: 10%
+                    box-sizing: border-box
+
+                
+
