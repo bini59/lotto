@@ -31,7 +31,6 @@ const Top: NextPage = () => {
         a();
     }, []);
 
-    log(style);
     return (
         <>
             <Navbar />

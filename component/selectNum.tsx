@@ -15,7 +15,6 @@ const data: number[][] = [
 ];
 
 const Nums = () => {
-    log("Nums");
     const [selected, setSelected] = useState(0);
     const [nums, setNums] = useState<JSX.Element[]>([]);
     const [element, setElement] = useState<React.MouseEvent<HTMLDivElement, MouseEvent> | null>(
@@ -65,7 +64,6 @@ const Nums = () => {
             randomNumber.push(temp);
         }
         setSelected(6);
-        log("create" + selected);
         return randomNumber;
     };
 
