@@ -10,8 +10,8 @@ const Navbar = () => {
                     <Link href='/'>
                         <a className={style.content}>Home</a>
                     </Link>
-                    <Link href='/about'>
-                        <a className={style.content}>About</a>
+                    <Link href='/top'>
+                        <a className={style.content}>Top Numbers</a>
                     </Link>
                     <Link href='/contact'>
                         <a className={style.content}>Contact</a>
