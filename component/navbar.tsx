@@ -13,8 +13,8 @@ const Navbar = () => {
                     <Link href='/top'>
                         <a className={style.content}>Top Numbers</a>
                     </Link>
-                    <Link href='/contact'>
-                        <a className={style.content}>Contact</a>
+                    <Link href='/together'>
+                        <a className={style.content}>Together number</a>
                     </Link>
                 </div>
             </nav>
