@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import styles from "../styles/selectNum.module.sass";
 
+import Num from "./num";
+
 const log = console.log;
 
 const data: number[][] = [
@@ -20,22 +22,6 @@ const Nums = () => {
     const [element, setElement] = useState<React.MouseEvent<HTMLDivElement, MouseEvent> | null>(
         null
     );
-
-    // const toggleActive = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    //     const target = e.target as HTMLDivElement;
-    //     log("toggle function" + selected);
-    //     if (selected == 6 && !target.classList.contains(styles.active)) {
-    //         alert("You can't select more than 6 numbers");
-    //         return;
-    //     }
-    //     if (target.classList.contains(styles.active)) {
-    //         target.classList.remove(styles.active);
-    //         setSelected(selected - 1);
-    //     } else {
-    //         target.classList.add(styles.active);
-    //         setSelected(selected + 1);
-    //     }
-    // };
 
     useEffect(() => {
         if (element) {
@@ -72,20 +58,7 @@ const Nums = () => {
         for (let i = 0; i < 8; i++) {
             var temp = [];
             for (let j = 0; j < data[i].length; j++) {
-                var b = numbers.includes(i * 6 + j)
-                    ? `${styles.active} ${styles.number}`
-                    : styles.number;
-                temp.push(
-                    <div
-                        key={"number" + i * 7 + j}
-                        className={b}
-                        onClick={(e) => {
-                            setElement(e);
-                        }}
-                    >
-                        {data[i][j]}
-                    </div>
-                );
+                temp.push(<Num key={"number" + i * 7 + j} num={i * 7 + j} />);
             }
             res.push(
                 <div key={`num_row_${i}`} className={styles.number_row}>
@@ -96,25 +69,55 @@ const Nums = () => {
         setNums(res);
     };
 
+    const selButtonToggle = (tar: Element, style: string) => {
+        tar.toggleAttribute("active");
+        if (tar.classList.length == 2) tar.classList.add(style);
+        else tar.classList.remove(tar.classList[2]);
+
+        if (tar.nextElementSibling?.classList.length == 3) {
+            tar.nextElementSibling?.classList.remove(tar.nextElementSibling?.classList[2]);
+            tar.nextElementSibling?.toggleAttribute("active");
+        }
+
+        if (tar.previousElementSibling?.classList.length == 3) {
+            tar.previousElementSibling?.classList.remove(tar.previousElementSibling?.classList[2]);
+            tar.previousElementSibling?.toggleAttribute("active");
+        }
+    };
+
     useEffect(() => {
         applyNumber(createRandomNumber());
         log("init random number" + selected);
     }, []);
 
     return (
-        <>
-            <section className={styles.num_section}>
-                <div className='num_title'>Lotto number selection</div>
-                <button
-                    onClick={(e) => {
-                        applyNumber(createRandomNumber());
-                    }}
+        <section className={styles.num_section}>
+            <div className='num_title'>Lotto number selection</div>
+            <section className={styles.num_selects}>
+                <div
+                    id='fix'
+                    className={styles.select_btn + " " + styles.fix_btn}
+                    onClick={(e) => selButtonToggle(e.target as Element, styles.fix_active)}
                 >
-                    Re-Select
-                </button>
-                <section className={styles.numbers}>{nums}</section>
+                    고정 수
+                </div>
+                <div
+                    id='exclude'
+                    className={styles.select_btn + " " + styles.exclude_btn}
+                    onClick={(e) => selButtonToggle(e.target as Element, styles.exclude_active)}
+                >
+                    제외 수
+                </div>
             </section>
-        </>
+            <button
+                onClick={(e) => {
+                    applyNumber(createRandomNumber());
+                }}
+            >
+                Re-Select
+            </button>
+            <section className={styles.numbers}>{nums}</section>
+        </section>
     );
 };
 
