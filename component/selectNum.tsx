@@ -1,8 +1,10 @@
-import { randomInt } from "crypto";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
+import { toPng } from "html-to-image";
+
 import styles from "../styles/selectNum.module.sass";
 
 import Num from "./num";
+import Ball from "./ball";
 
 const log = console.log;
 
@@ -66,7 +68,6 @@ const Nums = () => {
         }
 
         randomNumber.forEach((e) => (fetemp[e] = 2));
-        console.log(fetemp);
         setFe(fetemp);
         // setSelected(6);
         return randomNumber;
@@ -110,6 +111,72 @@ const Nums = () => {
             tar.previousElementSibling?.toggleAttribute("active");
         }
     };
+    const toImage = () => {
+        let tempE = document.createElement("div");
+
+        for (var i = 0; i < 45; i++) {
+            if (fenum[i] == 1 || fenum[i] == 2) {
+                console.log(1);
+                var tempNum = document.createElement("div");
+                tempNum.innerHTML = (i + 1).toString();
+                var style = `
+                    display: inline-block;
+                    width: 60px;
+                    height: 60px;
+                    border-radius : 100%;
+                    margin-right:5px;
+
+                    line-height: 56px;
+                    text-align: center;
+                    vertical-align: middle;
+                    font-size: 28px;
+                    font-weight: 500;
+                    color: #fff;
+                `;
+                if (i < 10)
+                    style += `
+                        background-color: #fbc400;
+                        text-shadow: 0px 0px 3px rgb(73 57 0 / 80%);
+                    `;
+                else if (i < 20)
+                    style += `
+                        background-color: #69c8f2;
+                        text-shadow: 0px 0px 3px rgb(0 49 70 / 80%);
+                    `;
+                else if (i < 30)
+                    style += `
+                        background-color: #ff7272;
+                        text-shadow: 0px 0px 3px rgb(64 0 0 / 80%);
+                    `;
+                else if (i < 40)
+                    style += `
+                        background-color: #aaaaaa;
+                        text-shadow: 0px 0px 3px rgb(61 61 61 / 80%);
+                    `;
+                else
+                    style += `
+                        background-color: #b0d840;
+                        text-shadow: 0px 0px 3px rgb(41 56 0 / 80%);
+                    `;
+                tempNum.setAttribute("style", style);
+                tempE.appendChild(tempNum);
+            }
+        }
+        tempE.setAttribute("style", "width:400px;");
+        document.body.appendChild(tempE);
+
+        toPng(tempE, { cacheBust: true })
+            .then((dataUrl) => {
+                const link = document.createElement("a");
+                link.download = "lotto-num.png";
+                link.href = dataUrl;
+                link.click();
+                document.body.removeChild(tempE);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
 
     useEffect(() => {
         log("init random number" + selected);
@@ -140,6 +207,14 @@ const Nums = () => {
                     onClick={createRandomNumber}
                 >
                     번호 선택
+                </div>
+                <div
+                    id='imgae'
+                    className={styles.select_btn + " " + styles.save_img}
+                    onClick={toImage}
+                >
+                    이미지로
+                    <br /> 저장
                 </div>
             </section>
         </section>

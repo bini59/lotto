@@ -9,7 +9,6 @@ const Index = () => {
             <Nums />
         </>
     );
-    ``;
 };
 
 export default Index;
