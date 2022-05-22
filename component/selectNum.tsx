@@ -1,3 +1,4 @@
+import { randomInt } from "crypto";
 import { useEffect, useState } from "react";
 import styles from "../styles/selectNum.module.sass";
 
@@ -22,6 +23,16 @@ const Nums = () => {
     const [element, setElement] = useState<React.MouseEvent<HTMLDivElement, MouseEvent> | null>(
         null
     );
+    const [fenum, setFe] = useState<Array<number>>([
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    ]);
+
+    const changeFe = (i: number, type: number) => {
+        let x = [...fenum];
+        x[i] = type;
+        setFe(x);
+    };
 
     useEffect(() => {
         if (element) {
@@ -41,24 +52,39 @@ const Nums = () => {
     }, [element]);
 
     const createRandomNumber = () => {
+        let fix: number[] = [];
         let randomNumber: number[] = [];
-        for (let i = 0; i < 6; i++) {
-            var temp: number = Math.floor(Math.random() * 45 + 1);
-            while (randomNumber.includes(temp)) {
-                temp = Math.floor(Math.random() * 45 + 1);
-            }
-            randomNumber.push(temp);
+        let fetemp: number[] = [...fenum];
+        for (var i = 0; i < 45; i++)
+            if (fetemp[i] == 1) fix.push(i);
+            else if (fetemp[i] == 2) fetemp[i] = 0;
+
+        while (randomNumber.length + fix.length != 6) {
+            let temp: number = Math.floor(Math.random() * 45);
+            if (fetemp[temp] != 0 || randomNumber.indexOf(temp) != -1) continue;
+            else randomNumber.push(temp);
         }
-        setSelected(6);
+
+        randomNumber.forEach((e) => (fetemp[e] = 2));
+        console.log(fetemp);
+        setFe(fetemp);
+        // setSelected(6);
         return randomNumber;
     };
 
-    const applyNumber = (numbers: number[]) => {
+    useEffect(() => {
         let res: JSX.Element[] = [];
         for (let i = 0; i < 8; i++) {
             var temp = [];
             for (let j = 0; j < data[i].length; j++) {
-                temp.push(<Num key={"number" + i * 7 + j} num={i * 7 + j} />);
+                temp.push(
+                    <Num
+                        key={"n" + data[i][j]}
+                        num={data[i][j]}
+                        type={fenum[data[i][j] - 1]}
+                        setfe={changeFe}
+                    />
+                );
             }
             res.push(
                 <div key={`num_row_${i}`} className={styles.number_row}>
@@ -67,7 +93,7 @@ const Nums = () => {
             );
         }
         setNums(res);
-    };
+    }, [fenum]);
 
     const selButtonToggle = (tar: Element, style: string) => {
         tar.toggleAttribute("active");
@@ -86,7 +112,6 @@ const Nums = () => {
     };
 
     useEffect(() => {
-        applyNumber(createRandomNumber());
         log("init random number" + selected);
     }, []);
 
@@ -109,13 +134,7 @@ const Nums = () => {
                     제외 수
                 </div>
             </section>
-            <button
-                onClick={(e) => {
-                    applyNumber(createRandomNumber());
-                }}
-            >
-                Re-Select
-            </button>
+            <button onClick={createRandomNumber}>Re-Select</button>
             <section className={styles.numbers}>{nums}</section>
         </section>
     );
