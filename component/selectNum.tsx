@@ -4,6 +4,7 @@ import { toPng } from "html-to-image";
 import styles from "../styles/selectNum.module.sass";
 
 import Num from "./num";
+import Analyze from "./analyze";
 import Ball from "./ball";
 
 const log = console.log;
@@ -20,12 +21,12 @@ const data: number[][] = [
 ];
 
 const Nums = () => {
-    const [selected, setSelected] = useState(0);
+    const [selected, setSelected] = useState<number[]>([]);
     const [nums, setNums] = useState<JSX.Element[]>([]);
-    const [element, setElement] = useState<React.MouseEvent<HTMLDivElement, MouseEvent> | null>(
-        null
-    );
-    const [fenum, setFe] = useState<Array<number>>([
+    // const [element, setElement] = useState<React.MouseEvent<HTMLDivElement, MouseEvent> | null>(
+    //     null
+    // );
+    const [fenum, setFe] = useState<number[]>([
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     ]);
@@ -36,22 +37,22 @@ const Nums = () => {
         setFe(x);
     };
 
-    useEffect(() => {
-        if (element) {
-            const target = element?.target as HTMLDivElement;
-            if (selected == 6 && !target.classList.contains(styles.active)) {
-                alert("You can't select more than 6 numbers");
-                return;
-            }
-            if (target.classList.contains(styles.active)) {
-                target.classList.remove(styles.active);
-                setSelected(selected - 1);
-            } else {
-                target.classList.add(styles.active);
-                setSelected(selected + 1);
-            }
-        }
-    }, [element]);
+    // useEffect(() => {
+    //     if (element) {
+    //         const target = element?.target as HTMLDivElement;
+    //         if (selected == 6 && !target.classList.contains(styles.active)) {
+    //             alert("You can't select more than 6 numbers");
+    //             return;
+    //         }
+    //         if (target.classList.contains(styles.active)) {
+    //             target.classList.remove(styles.active);
+    //             setSelected(selected - 1);
+    //         } else {
+    //             target.classList.add(styles.active);
+    //             setSelected(selected + 1);
+    //         }
+    //     }
+    // }, [element]);
 
     const createRandomNumber = () => {
         let fix: number[] = [];
@@ -66,7 +67,7 @@ const Nums = () => {
             if (fetemp[temp] != 0 || randomNumber.indexOf(temp) != -1) continue;
             else randomNumber.push(temp);
         }
-
+        setSelected([...fix, ...randomNumber]);
         randomNumber.forEach((e) => (fetemp[e] = 2));
         setFe(fetemp);
         // setSelected(6);
@@ -178,9 +179,9 @@ const Nums = () => {
             });
     };
 
-    useEffect(() => {
-        log("init random number" + selected);
-    }, []);
+    // useEffect(() => {
+    //     log("init random number" + selected);
+    // }, []);
 
     return (
         <section className={styles.num_section}>
@@ -217,6 +218,7 @@ const Nums = () => {
                     <br /> 저장
                 </div>
             </section>
+            <Analyze numbers={selected} />
         </section>
     );
 };

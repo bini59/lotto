@@ -5,7 +5,7 @@ interface props {
     rate: number;
     nowRound: number;
     numinfo: Array<Array<number>>;
-    fix: number;
+    fix: number; // 소수점 자리수 표시 개수
 }
 
 const Ballcover = (props: props) => {
