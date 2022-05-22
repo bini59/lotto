@@ -76,7 +76,7 @@ const Nums = () => {
         let res: JSX.Element[] = [];
         for (let i = 0; i < 8; i++) {
             var temp = [];
-            for (let j = 0; j < data[i].length; j++) {
+            for (let j = 0; j < data[i].length; j++)
                 temp.push(
                     <Num
                         key={"n" + data[i][j]}
@@ -85,7 +85,7 @@ const Nums = () => {
                         setfe={changeFe}
                     />
                 );
-            }
+
             res.push(
                 <div key={`num_row_${i}`} className={styles.number_row}>
                     {temp}
@@ -117,7 +117,8 @@ const Nums = () => {
 
     return (
         <section className={styles.num_section}>
-            <div className='num_title'>Lotto number selection</div>
+            <div className={styles.num_title}>로또 번호 선택기</div>
+            <section className={styles.numbers}>{nums}</section>
             <section className={styles.num_selects}>
                 <div
                     id='fix'
@@ -133,9 +134,14 @@ const Nums = () => {
                 >
                     제외 수
                 </div>
+                <div
+                    id='select'
+                    className={styles.select_btn + " " + styles.random_btn}
+                    onClick={createRandomNumber}
+                >
+                    번호 선택
+                </div>
             </section>
-            <button onClick={createRandomNumber}>Re-Select</button>
-            <section className={styles.numbers}>{nums}</section>
         </section>
     );
 };

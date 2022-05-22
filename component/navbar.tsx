@@ -8,13 +8,13 @@ const Navbar = () => {
             <nav className={style.navbar}>
                 <div className={style.navbar_content}>
                     <Link href='/'>
-                        <a className={style.content}>Home</a>
+                        <a className={style.content}>번호 선택</a>
                     </Link>
                     <Link href='/top'>
-                        <a className={style.content}>Top Numbers</a>
+                        <a className={style.content}>잘나오는 수</a>
                     </Link>
                     <Link href='/together'>
-                        <a className={style.content}>Together number</a>
+                        <a className={style.content}>이웃 수</a>
                     </Link>
                 </div>
             </nav>

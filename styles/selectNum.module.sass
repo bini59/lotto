@@ -9,6 +9,10 @@
     padding: 20px
     box-sizing: border-box
 
+    .num_title
+        font-size: 3em
+        margin-bottom: 40px
+
     .numbers
         display: flex
         flex-direction: column
@@ -54,6 +58,7 @@
 
     
     .num_selects
+        margin-top: 30px
         display: flex
 
         .select_btn
@@ -68,6 +73,7 @@
             border-radius: 10%
 
             box-shadow: 2px 2px 2px 2px #00000014
+            margin : 10px
 
             &:hover
                 cursor: pointer
@@ -76,11 +82,11 @@
             &:active
                 box-shadow: 1px 2px 2px 1px #00000010
 
-            &:first-child
-                margin-right: 20px
+            
 
 
         .fix_btn
+            order: 1
             background-color: #37df61
 
         .fix_active
@@ -88,8 +94,12 @@
             border-style: ridge
             border-color: #7de497
 
+        .random_btn
+            order: 2
+
         
         .exclude_btn
+            order: 3
             background-color: #e63131
 
         .exclude_active
