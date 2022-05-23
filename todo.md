@@ -4,6 +4,11 @@
 
 (D) analyze:49(Ballcover) key값 조정 필요
 
+
+(E) useCallback, useMemo hook적용시키기
+=> useCallback 함수를 메모제이션 해서 다시 로드하는 일이 없도록 하고,
+함수 리로드를 state에 의존하게 할 수 있다.
+
 해보고 싶은것.
 
 -> 번호 선택기로 번호를 뽑았을때,

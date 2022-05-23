@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import styles from "../styles/selectNum.module.sass";
 
@@ -11,7 +11,7 @@ interface props {
 const Num = (props: props) => {
     const [style, setStyle] = useState<string>(styles.number + " ");
 
-    const selNum = (target: Element) => {
+    const selNum = useCallback((target: Element) => {
         if (target.classList.length != 2) {
             if (document.getElementById("fix")?.hasAttribute("active")) {
                 props.setfe(props.num - 1, 1);
@@ -42,7 +42,7 @@ const Num = (props: props) => {
                 setStyle(styles.number);
             }
         }
-    };
+    }, [props]);
 
     useEffect(() => {
         if (props.type == 2) {

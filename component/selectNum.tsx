@@ -1,13 +1,10 @@
-import { useEffect, useState, useRef, useCallback } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { toPng } from "html-to-image";
 
 import styles from "../styles/selectNum.module.sass";
 
 import Num from "./num";
 import Analyze from "./analyze";
-import Ball from "./ball";
-
-const log = console.log;
 
 const data: number[][] = [
     [1, 2, 3, 4, 5, 6],
@@ -23,38 +20,18 @@ const data: number[][] = [
 const Nums = () => {
     const [selected, setSelected] = useState<number[]>([]);
     const [nums, setNums] = useState<JSX.Element[]>([]);
-    // const [element, setElement] = useState<React.MouseEvent<HTMLDivElement, MouseEvent> | null>(
-    //     null
-    // );
     const [fenum, setFe] = useState<number[]>([
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     ]);
 
-    const changeFe = (i: number, type: number) => {
+    const changeFe = useCallback((i: number, type: number) => {
         let x = [...fenum];
         x[i] = type;
         setFe(x);
-    };
+    }, [fenum]);
 
-    // useEffect(() => {
-    //     if (element) {
-    //         const target = element?.target as HTMLDivElement;
-    //         if (selected == 6 && !target.classList.contains(styles.active)) {
-    //             alert("You can't select more than 6 numbers");
-    //             return;
-    //         }
-    //         if (target.classList.contains(styles.active)) {
-    //             target.classList.remove(styles.active);
-    //             setSelected(selected - 1);
-    //         } else {
-    //             target.classList.add(styles.active);
-    //             setSelected(selected + 1);
-    //         }
-    //     }
-    // }, [element]);
-
-    const createRandomNumber = () => {
+    const createRandomNumber = useCallback(() => {
         let fix: number[] = [];
         let randomNumber: number[] = [];
         let fetemp: number[] = [...fenum];
@@ -72,7 +49,7 @@ const Nums = () => {
         setFe(fetemp);
         // setSelected(6);
         return randomNumber;
-    };
+    }, [fenum]);
 
     useEffect(() => {
         let res: JSX.Element[] = [];
@@ -97,7 +74,7 @@ const Nums = () => {
         setNums(res);
     }, [fenum]);
 
-    const selButtonToggle = (tar: Element, style: string) => {
+    const selButtonToggle = useCallback((tar: Element, style: string) => {
         tar.toggleAttribute("active");
         if (tar.classList.length == 2) tar.classList.add(style);
         else tar.classList.remove(tar.classList[2]);
@@ -111,8 +88,9 @@ const Nums = () => {
             tar.previousElementSibling?.classList.remove(tar.previousElementSibling?.classList[2]);
             tar.previousElementSibling?.toggleAttribute("active");
         }
-    };
-    const toImage = () => {
+    }, []);
+
+    const toImage = useCallback(() => {
         let tempE = document.createElement("div");
 
         for (var i = 0; i < 45; i++) {
@@ -177,11 +155,8 @@ const Nums = () => {
             .catch((err) => {
                 console.log(err);
             });
-    };
+    }, [fenum]);
 
-    // useEffect(() => {
-    //     log("init random number" + selected);
-    // }, []);
 
     return (
         <section className={styles.num_section}>

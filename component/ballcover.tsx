@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+
 import style from "../styles/ballcover.module.sass";
 import Ball from "./ball";
 
@@ -10,31 +12,40 @@ interface props {
 
 const Ballcover = (props: props) => {
     const frequency: number = Math.round(props.nowRound * 6 * props.rate * 0.01);
+    const [balls, setBalls] = useState<JSX.Element[]>([]);
+    const [coverStyle, setCoverStyle] = useState<string>(style.ballRate); 
 
-    let balls: JSX.Element[] = [];
-    for (var i: number = 0; i < props.numinfo.length; i++) {
-        balls.push(
-            <Ball key={props.numinfo[i][0] + props.numinfo[i][1]} num={props.numinfo[i][0]} />
-        );
-    }
+    // set balls JSX
+    useEffect(() => {
+        let temp: JSX.Element[] = []
+        for (var i: number = 0; i < props.numinfo.length; i++) {
+            temp.push(
+                <Ball key={props.numinfo[i][0] + props.numinfo[i][1]} num={props.numinfo[i][0]} />
+            );
+        }
+        setBalls(temp);
+    }, []);
 
-    let coverStyle: string = style.ballRate + " ";
-    switch (props.numinfo.length) {
-        case 2:
-            coverStyle += style.ballRate2;
-            break;
-        case 3:
-            coverStyle += style.ballRate3;
-            break;
-        case 4:
-            coverStyle += style.ballRate4;
-            break;
-        case 5:
-            coverStyle += style.ballRate5;
-            break;
-        default:
-            break;
-    }
+    // set cover style
+    useEffect(() => {
+        switch (props.numinfo.length) {
+            case 2:
+                setCoverStyle(coverStyle + " " + style.ballRate2);
+                break;
+            case 3:
+                setCoverStyle(coverStyle + " " + style.ballRate3);
+                break;
+            case 4:
+                setCoverStyle(coverStyle + " " + style.ballRate4);
+                break;
+            case 5:
+                setCoverStyle(coverStyle + " " + style.ballRate5);
+                break;
+            default:
+                break;
+        }
+    }, [])
+
 
     return (
         <section className={coverStyle}>

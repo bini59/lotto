@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import Ballcover from "../component/ballcover";
 import Navbar from "../component/navbar";
 
@@ -25,14 +25,14 @@ const Together = () => {
         setTogether(tmp);
     };
 
-    const click = () => {
+    const click = useCallback(() => {
         let tmp =
             document.getElementById("with")?.children[
                 document.getElementById("with")?.selectedIndex
             ]?.value;
-        console.log(tmp);
         temp(tmp);
-    };
+    }, [together]);
+    
     return (
         <>
             <Navbar />
