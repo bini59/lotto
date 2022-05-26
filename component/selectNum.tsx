@@ -17,6 +17,11 @@ const data: number[][] = [
     [43, 44, 45],
 ];
 
+
+interface res{
+    random : number[]
+}
+
 const Nums = () => {
     const [selected, setSelected] = useState<number[]>([]);
     const [nums, setNums] = useState<JSX.Element[]>([]);
@@ -31,25 +36,35 @@ const Nums = () => {
         setFe(x);
     }, [fenum]);
 
-    const createRandomNumber = useCallback(() => {
+    const createRandomNumber =  async () => {
         let fix: number[] = [];
         let randomNumber: number[] = [];
         let fetemp: number[] = [...fenum];
         for (var i = 0; i < 45; i++)
-            if (fetemp[i] == 1) fix.push(i);
+            if (fetemp[i] == 1) fix.push(i+1);
             else if (fetemp[i] == 2) fetemp[i] = 0;
 
-        while (randomNumber.length + fix.length != 6) {
-            let temp: number = Math.floor(Math.random() * 45);
-            if (fetemp[temp] != 0 || randomNumber.indexOf(temp) != -1) continue;
-            else randomNumber.push(temp);
-        }
-        setSelected([...fix, ...randomNumber]);
-        randomNumber.forEach((e) => (fetemp[e] = 2));
+        let url = `/api/number/random`;
+        const response: res = await (
+            await fetch(url, {
+                method: "POST", // *GET, POST, PUT, DELETE 등
+                mode: "cors", // no-cors, *cors, same-origin
+                cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+                credentials: "same-origin", // include, *same-origin, omit
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                redirect: "follow", // manual, *follow, error
+                referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+                body: JSON.stringify({fixed : fix}), // body의 데이터 유형은 반드시 "Content-Type" 헤더와 일치해야 함
+            })
+        ).json();
+        randomNumber = response.random;
+        setSelected(randomNumber);
+        randomNumber.forEach((e) => (fetemp[e - 1] = 2));
+        fix.forEach((e)=>(fetemp[e-1] = 1));
         setFe(fetemp);
-        // setSelected(6);
-        return randomNumber;
-    }, [fenum]);
+    };
 
     useEffect(() => {
         let res: JSX.Element[] = [];

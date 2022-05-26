@@ -41,7 +41,7 @@ const Analyze = (props: props) => {
                 var info: number[][] = [];
                 for (var j = 0; j < response.one[i].length - 1; j++) {
                     var temp: number[] = [];
-                    temp.push(response.one[i][j]);
+                    temp.push(response.one[i][j]-1);
                     temp.push(j * 2);
                     info.push(temp);
                 }
