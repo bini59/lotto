@@ -178,35 +178,40 @@ const Nums = () => {
             <div className={styles.num_title}>로또 번호 선택기</div>
             <section className={styles.numbers}>{nums}</section>
             <section className={styles.num_selects}>
-                <div
-                    id='fix'
-                    className={styles.select_btn + " " + styles.fix_btn}
-                    onClick={(e) => selButtonToggle(e.target as Element, styles.fix_active)}
-                >
-                    고정 수
-                </div>
-                <div
-                    id='exclude'
-                    className={styles.select_btn + " " + styles.exclude_btn}
-                    onClick={(e) => selButtonToggle(e.target as Element, styles.exclude_active)}
-                >
-                    제외 수
-                </div>
-                <div
-                    id='select'
-                    className={styles.select_btn + " " + styles.random_btn}
-                    onClick={createRandomNumber}
-                >
-                    번호 선택
-                </div>
-                <div
-                    id='imgae'
-                    className={styles.select_btn + " " + styles.save_img}
-                    onClick={toImage}
-                >
-                    이미지로
-                    <br /> 저장
-                </div>
+                <section className={styles.select_fe}>
+                    <div
+                        id='fix'
+                        className={styles.select_btn + " " + styles.fix_btn}
+                        onClick={(e) => selButtonToggle(e.target as Element, styles.fix_active)}
+                    >
+                        고정 수
+                    </div>
+                    <div
+                        id='exclude'
+                        className={styles.select_btn + " " + styles.exclude_btn}
+                        onClick={(e) => selButtonToggle(e.target as Element, styles.exclude_active)}
+                    >
+                        제외 수
+                    </div>
+                    
+                    <div
+                        id='imgae'
+                        className={styles.select_btn + " " + styles.save_img}
+                        onClick={toImage}
+                    >
+                        이미지로
+                        <br /> 저장
+                    </div>
+                </section>
+                <section className={styles.sel_random}>
+                    <div
+                        id='select'
+                        className={styles.select_btn + " " + styles.random_btn}
+                        onClick={createRandomNumber}
+                    >
+                        번호 선택
+                    </div>
+                </section>
             </section>
             <Analyze numbers={selected} />
         </section>

@@ -59,13 +59,15 @@
     .num_selects
         margin-top: 30px
         display: flex
-
+        flex-direction: column
         .select_btn
             display: flex
             align-content: center
             justify-content: center
             align-items: center
             text-align: center
+
+            
 
             width: 80px
             height: 60px
@@ -82,32 +84,34 @@
                 box-shadow: 1px 2px 2px 1px #00000010
 
             
+        .select_fe
+            display: flex
+            flex-direction: row
 
+            .fix_btn
+                order: 1
+                background-color: #37df61
 
-        .fix_btn
-            order: 1
-            background-color: #37df61
+            .fix_active
+                background-color: #37df61
+                border-style: ridge
+                border-color: #7de497
 
-        .fix_active
-            background-color: #37df61
-            border-style: ridge
-            border-color: #7de497
+            .save_img
+                order: 2
 
-        .random_btn
-            order: 2
+            
+            .exclude_btn
+                order: 3
+                background-color: #e63131
 
-        .save_img
-            order: 3
-
-        
-        .exclude_btn
-            order: 4
-            background-color: #e63131
-
-        .exclude_active
-            background-color: #e63131
-            border-style: ridge
-            border-color: #eea3a3
+            .exclude_active
+                background-color: #e63131
+                border-style: ridge
+                border-color: #eea3a3   
+        .sel_random
+            .select_btn
+                width: 93%
 
                 
 
