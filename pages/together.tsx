@@ -26,11 +26,10 @@ const Together = () => {
     };
 
     const click = useCallback(() => {
-        let tmp =
-            document.getElementById("with")?.children[
-                document.getElementById("with")?.selectedIndex
-            ]?.value;
-        temp(tmp);
+        let selEl: HTMLSelectElement = document.getElementById("with") as HTMLSelectElement;
+        let tmp: HTMLOptionElement = document.getElementById("with")?.children[selEl.selectedIndex] as HTMLOptionElement;
+        
+        temp(Number(tmp.value));
     }, [together]);
     
     return (

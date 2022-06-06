@@ -96,10 +96,13 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
             res.status(200).json(num.with5);
         }
     } else if (slug[0] == "random") {
-
+        let exclude: number[] = req.body.exclude;
         let fix:number[] = req.body.fixed;
 
         let temp: number[] = generateRandomNumber(fix)
+        while (temp.filter(x => exclude.includes(x)).length != 0) {
+            temp = generateRandomNumber(fix)
+        }
         res.status(200).json({
             random : temp
         });

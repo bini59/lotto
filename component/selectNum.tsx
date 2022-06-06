@@ -38,10 +38,12 @@ const Nums = () => {
 
     const createRandomNumber =  async () => {
         let fix: number[] = [];
+        let exclude: number[] = [];
         let randomNumber: number[] = [];
         let fetemp: number[] = [...fenum];
         for (var i = 0; i < 45; i++)
-            if (fetemp[i] == 1) fix.push(i+1);
+            if (fetemp[i] == 1) fix.push(i + 1);
+            else if (fetemp[i] == -1) exclude.push(i + 1);
             else if (fetemp[i] == 2) fetemp[i] = 0;
 
         let url = `/api/number/random`;
@@ -56,7 +58,7 @@ const Nums = () => {
                 },
                 redirect: "follow", // manual, *follow, error
                 referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-                body: JSON.stringify({fixed : fix}), // body의 데이터 유형은 반드시 "Content-Type" 헤더와 일치해야 함
+                body: JSON.stringify({fixed : fix, exclude : exclude}), // body의 데이터 유형은 반드시 "Content-Type" 헤더와 일치해야 함
             })
         ).json();
         randomNumber = response.random;
@@ -196,6 +198,7 @@ const Nums = () => {
                     
                     <div
                         id='imgae'
+                        
                         className={styles.select_btn + " " + styles.save_img}
                         onClick={toImage}
                     >
@@ -213,7 +216,7 @@ const Nums = () => {
                     </div>
                 </section>
             </section>
-            <Analyze numbers={selected} />
+            {/* <Analyze numbers={selected} /> */}
         </section>
     );
 };
