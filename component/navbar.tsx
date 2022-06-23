@@ -17,6 +17,10 @@ const Navbar = () => {
                         <a className={style.content}>이웃 수</a>
                     </Link>
                 </div>
+                <div className={style.navbar_content + " " + style.navbar_login}>
+                    <Link href='/login'><a className={style.content}>로그인</a></Link>
+                </div>
+                
             </nav>
         </>
     );
