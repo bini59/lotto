@@ -1,24 +1,34 @@
 import Navbar from "../component/navbar";
-import Link from "next/link";
-
-
 import style from "../styles/login.module.sass";
 
-const Login = () => {
+import {getCsrfToken} from "next-auth/react"
+
+const Login = ({ csrfToken }) => {
     return (
         <>
             <Navbar />
-            <section className={style.login_section}>
-                <div><div className={style.login_input_text}>아이디 </div>: <input type="text"/><br/></div>
-                <div><div className={style.login_input_text}>비밀번호</div>: <input type="password" /></div>
-                
-                <div>
-                    <button>로그인</button>
-                    <Link href="/register"><button>회원가입</button></Link>
-                </div>
-            </section>
+            <form method="post" action="/api/auth/callback/credentials">
+                <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
+                <label>
+                    Username
+                    <input name="username" type="text" />
+                </label>
+                <label>
+                    Password
+                    <input name="password" type="password" />
+                </label>
+                <button type="submit">Sign in</button>
+            </form>
         </>
-    );
+      )
 };
+
+export async function getServerSideProps(context:any) {
+    return {
+        props: {
+            csrfToken: await getCsrfToken(context),
+        },
+    }
+}
 
 export default Login;
