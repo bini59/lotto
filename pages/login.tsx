@@ -2,10 +2,15 @@ import Navbar from "../component/navbar";
 import style from "../styles/login.module.sass";
 
 import {getCsrfToken} from "next-auth/react"
+import { useState } from "react";
+import Regist from "../component/register";
 
 const Login = ({ csrfToken }) => {
+    const [temp, setTemp] = useState<JSX.Element>()
+
     return (
         <>
+            {temp}
             <Navbar />
             <form method="post" action="/api/auth/callback/credentials">
                 <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
@@ -19,6 +24,7 @@ const Login = ({ csrfToken }) => {
                 </label>
                 <button type="submit">Sign in</button>
             </form>
+            <button onClick={()=>{setTemp(<Regist />)}}>Register</button>
         </>
       )
 };
