@@ -1,11 +1,76 @@
-.login_section
-    border: 1px solid #000
-    width: 30%
-    display: flex
-    text-align: center
-    align-items: center
-    flex-direction: column
-
-    .login_input_text
-        display: inline-block
-        width: 75px
+$main-color : #094208
+$main-color-soft: #a9e6a8
+.login_section 
+    display: flex 
+    flex-direction: column 
+    width: 50% 
+    height: 350px 
+    padding: 40px 
+    border-radius: 10px 
+    border: 1px solid rgb(219, 219, 219) 
+    margin: auto 
+    margin-top: 20vh 
+.login_title 
+    margin-bottom: 12px 
+    font-size: 20px 
+    color: $main-color
+.input_label 
+    display: flex 
+    flex-direction: column 
+    padding: 10px 0px 
+.input_user_info 
+    width: 100% 
+    height: 40px 
+    margin: 2px auto 
+    padding: 0px 5px 
+    font-size: 14px 
+    border-radius: 4px 
+    border: 0px 
+    box-shadow: 2px 1px 2px 0px rgba(0, 0, 0, 0.2) 
+.login_button 
+    margin-top: 14px 
+    margin-bottom: 8px 
+    border-radius: 10px 
+    border: 0px 
+    width: 100% 
+    height: 42px 
+    color: #fff 
+    background-color: $main-color
+    cursor: pointer 
+    box-shadow: 1px 2px 4px 0px rgba(0, 0, 0, 0.2) 
+    &:hover 
+        box-shadow: 2px 2.5px 5px 0px rgba(0, 0, 0, 0.2) 
+    &:active 
+        box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.2) 
+.login_forgot 
+    display: flex 
+    justify-content: flex-end 
+    margin-top: 2px 
+    float: right 
+    text-decoration: underline 
+    cursor: pointer 
+    color: $main-color-soft
+    &:hover 
+        font-weight: 500 
+.login_hr 
+    width: 100% 
+    height: 20px 
+    border-bottom: 1px solid #d6d6d6 
+    text-align: center 
+.login_hr_text 
+    position: relative 
+    top: 10px 
+    padding: 3px 10px 
+    background-color: #fff 
+    border-radius: 15px 
+    border: 1px solid #d6d6d6 
+.sing_up_wrap 
+    display: flex 
+    justify-content: center 
+    margin-top: 40px 
+.sign_up_link 
+    text-decoration: underline 
+    cursor: pointer 
+    color: $main-color-soft
+    &:hover 
+        font-weight: 550 

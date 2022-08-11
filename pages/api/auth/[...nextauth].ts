@@ -2,7 +2,10 @@ import NextAuth from "next-auth"
 import GithubProvider from "next-auth/providers/github"
 import CredentialsProvider from "next-auth/providers/credentials"
 
+import excuteQuery from '../../../lib/db'
+
 export default NextAuth({
+    secret: process.env.AUTH_SECRET,
   // Configure one or more authentication providers
     providers: [
         GithubProvider({
@@ -23,11 +26,22 @@ export default NextAuth({
             },
             async authorize(credentials, req) {
               // Add logic here to look up the user from the credentials supplied
-              const user = { id: 1, name: "J Smith", email: "jsmith@example.com" }
+              console.log(credentials)
+              console.log(req.body)
+              const result = await excuteQuery({
+                query: `select 'name', 'password' from user where id="${credentials.username}";`,
+                values: "",
+              });
+              console.log(result);
         
-              if (user) {
+              if (result.length != 0) {
                 // Any object returned will be saved in `user` property of the JWT
-                return user
+                if (result[0].password == credentials.password) {
+                  return {id: credentials.username, name: result[0].name, email: "test@g"}
+                }
+                else {
+                  return null  
+                }
               } else {
                 // If you return null then an error will be displayed advising the user to check their details.
                 return null
@@ -38,6 +52,7 @@ export default NextAuth({
           })
     ],
     pages: {
-        signIn: "/login"
+      signIn: "/login",
+      error: "/login"
     }
 })
