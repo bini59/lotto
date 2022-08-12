@@ -78,6 +78,21 @@ const generateRandomNumber = (Remain:number[])=>{
     return result;
 }
 
+let check_r = [];
+for (var i = 0; i < 5; i++) check_r.push(generateRandomNumber([]));
+const check_random_g = (arr: number[]) => {
+    for (var i = 0; i < check_r.length; i++) {
+        var temp = 0;
+        for (var j = 0; j < arr.length; j++) {
+            if (check_r[i].indexOf(arr[j]) != -1) temp++;
+            if(temp == 3) return false;
+        }
+    }
+    return true;
+}
+
+let temp_arr = [];
+
 export default (req: NextApiRequest, res: NextApiResponse) => {
     const { slug } = req.query;
 
@@ -97,12 +112,28 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
         }
     } else if (slug[0] == "random") {
         let exclude: number[] = req.body.exclude;
-        let fix:number[] = req.body.fixed;
+        let fix: number[] = req.body.fixed;
 
         let temp: number[] = generateRandomNumber(fix)
         while (temp.filter(x => exclude.includes(x)).length != 0) {
             temp = generateRandomNumber(fix)
         }
+        while (!check_random_g(temp)) {
+            temp = generateRandomNumber(fix)
+        }
+        check_r = [...check_r.slice(1), temp];
+
+        /// test code
+        temp_arr.push(temp);
+        var temp_ = 0;
+        for (var i = 0; i < temp_arr.length-1; i++) {
+            for (var j = 0; j < temp.length; j++) {
+                if (temp_arr[i].indexOf(temp[j]) != -1) temp_++;
+            }
+        }
+        console.log(temp_/temp_arr.length);
+        //test code end
+
         res.status(200).json({
             random : temp
         });
